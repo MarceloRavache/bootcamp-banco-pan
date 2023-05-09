@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.challenger.crud.facades.UpdateAlunoFacade;
 import com.challenger.crud.models.Aluno;
 import com.challenger.crud.models.Matricula;
 import com.challenger.crud.repositories.AlunoRepository;
@@ -50,14 +51,7 @@ public class AlunoService {
     public Aluno update(Aluno aluno){
         Optional<Aluno> alunoExist = alunoRepository.findById(aluno.getId());
         if (alunoExist.isPresent()) {
-            Aluno objeto = alunoExist.get();
-            objeto.setCpf(aluno.getCpf());
-            objeto.setBairro(aluno.getBairro());
-            objeto.setDataDeNascimento(aluno.getDataDeNascimento());
-            objeto.setAvaliacaoFisica(aluno.getAvaliacaoFisica());
-            objeto.setMatricula(aluno.getMatricula());
-            objeto.setNome(aluno.getNome());
-            
+            Aluno objeto = new UpdateAlunoFacade().updateAlunoFacade(alunoExist, aluno);
             alunoRepository.save(objeto);
             return objeto;
         }

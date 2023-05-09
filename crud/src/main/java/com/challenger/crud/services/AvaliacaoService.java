@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.challenger.crud.facades.UpdateAvaliacaoFacade;
 import com.challenger.crud.models.Aluno;
 import com.challenger.crud.models.AvaliacaoFisica;
 import com.challenger.crud.repositories.AlunoRepository;
@@ -42,11 +43,7 @@ public class AvaliacaoService {
     public AvaliacaoFisica update(AvaliacaoFisica avaliacaoFisica){
         Optional<AvaliacaoFisica> avaliacaoFisicaExist = avaliacaoFisicaRepository.findById(avaliacaoFisica.getId());
         if (avaliacaoFisicaExist.isPresent()) {
-            AvaliacaoFisica objeto = avaliacaoFisicaExist.get();
-            objeto.setAltura(avaliacaoFisica.getAltura());
-            objeto.setPeso(avaliacaoFisica.getPeso());
-            objeto.setDataDaAvaliacao(avaliacaoFisica.getDataDaAvaliacao());
-            objeto.setAluno(avaliacaoFisica.getAluno());
+            AvaliacaoFisica objeto = new UpdateAvaliacaoFacade().updateAvaliacaoFacade(avaliacaoFisicaExist, avaliacaoFisica);
             
             avaliacaoFisicaRepository.save(objeto);
             return objeto;
